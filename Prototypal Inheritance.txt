@@ -1,0 +1,89 @@
+// Prototypal Inheritance
+function Animal(name) {
+    this.name = name;
+}
+
+Animal.prototype.speak = function () {
+    return `${this.name} makes a sound.`;
+};
+
+function Dog(name, breed) {
+    Animal.call(this, name); // Call parent constructor
+    this.breed = breed;
+}
+
+Dog.prototype = Object.create(Animal.prototype); // Set up inheritance
+Dog.prototype.constructor = Dog;
+
+Dog.prototype.speak = function () {
+    return `${this.name}, the ${this.breed}, barks!`;
+};
+
+// Closure
+function createCounter() {
+    let count = 0; // Private variable
+    return {
+        increment: function () {
+            count++;
+            return count;
+        },
+        decrement: function () {
+            count--;
+            return count;
+        },
+        getCount: function () {
+            return count;
+        }
+    };
+}
+
+// Callback Function
+function fetchDataWithCallback(id, callback) {
+    setTimeout(() => {
+        callback(`Data for ID: ${id}`);
+    }, 1000); // Simulate async data fetch
+}
+
+// Promises
+function fetchDataWithPromise(id) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            if (id > 0) resolve(`Data for ID: ${id}`);
+            else reject("Invalid ID");
+        }, 1000); // Simulate async data fetch
+    });
+}
+
+// Async/Await
+async function fetchDataWithAsyncAwait(id) {
+    try {
+        const data = await fetchDataWithPromise(id);
+        console.log("Async/Await result:", data);
+    } catch (error) {
+        console.error("Async/Await error:", error);
+    }
+}
+
+// Demonstration
+console.log("=== Prototypal Inheritance ===");
+const dog = new Dog("Buddy", "Golden Retriever");
+console.log(dog.speak());
+
+console.log("\n=== Closure ===");
+const counter = createCounter();
+console.log("Initial count:", counter.getCount());
+console.log("Increment:", counter.increment());
+console.log("Decrement:", counter.decrement());
+
+console.log("\n=== Callback ===");
+fetchDataWithCallback(1, (data) => {
+    console.log("Callback result:", data);
+});
+
+console.log("\n=== Promises ===");
+fetchDataWithPromise(2)
+    .then((data) => console.log("Promise result:", data))
+    .catch((error) => console.error("Promise error:", error));
+
+console.log("\n=== Async/Await ===");
+fetchDataWithAsyncAwait(3);

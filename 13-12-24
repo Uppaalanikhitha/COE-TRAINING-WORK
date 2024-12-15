@@ -1,0 +1,305 @@
+1.	a=float(input(print("enter amount")))
+	b1=float(input(print("enter amount of bill 1")))
+	b2=float(input(print("enter amount of bill 2")))
+	b3=float(input(print("enter amount of bill 3")))
+	total=b1+b2+b3
+	print(total)
+	per=(total / a) * 100
+	print("the money spent from total salary is", per)
+
+
+2.	BS=int(input(print("enter the basic salary")))
+	if BS<10000:
+    		HRA=(67/100)*BS
+    		DA=(BS/73)*100
+	elif  BS<20000:
+    		HRA = (69/100) * BS
+    		DA = (76/100) * BS
+	else:
+    		HRA = (73/100) * BS
+    		DA = (89/100) * BS
+	GS=HRA+DA+BS
+	print("the gross salary is",GS)
+
+3.	project=int(input(print("Enter the project marks")))
+  	internal=int(input(print("Enter the internal marks")))
+  	external=int(input(print("Enter the external marks")))
+
+  	if project>=50 and internal>=50 and external>=50:
+    		p=(70/100)*project
+    		i=(10/100)*internal
+    		e=(20/100)*external
+    		total=p+i+e
+    		print(total)
+
+    		if total>90:
+        		print("A")
+
+    		elif total>80:
+        		print("a")
+
+    		elif total>70:
+        		print("B")
+
+    		elif total>60:
+        		print("b")
+
+    		else:
+        	print("C")
+
+	elif internal<50:
+    		print("you are failed in internal score is ",internal)
+
+	elif external<50:
+    		print("you are failed in externalscore is",external)
+
+	else:
+    		print("you are failed in project score is ",project)
+
+
+4.	class bank():
+   		acbal=10000
+   		def deposit(self):
+       		dep=int(input("enter the deposit amount:"))
+       		if dep<100:
+           		print("minimum deposit amount should be 100")
+       		elif dep%100!=0:
+           		print("amount should be multiples of 100")
+       		elif dep>50000:
+           		print("maximum deposit amount should be 50000")
+   		def withdraw(self):
+       			t=0
+       			while t<3:
+           		wd=int(input("enter withdraw amount"))
+           		if wd<100:
+               			print("min withdraw amount should be 100")
+           		elif wd%100!=0:
+               			print("amount should be multiples of 100")
+           		elif wd>self.acbal:
+               			print("withdraw amount should be less than acbal")
+           		elif self.acbal<500:
+               			print("need to maintain 500 min balance")
+           		elif wd>20000:
+               			print("transaction limit is 20k")
+           		else:
+               			t+=1
+       		else:
+           		print("max transactions are 3")
+   		def viewOptions(self):
+       			while True:
+           			print("\n1: Deposit\n2: Withdraw\n3: Balance enquiry\n4: Exit")
+           			choice = int(input("Enter your choice: "))
+           		if choice == 1:	
+				self.deposit()
+           		elif choice == 2:
+               			self.withdraw()
+           		elif choice == 3:
+               			self.balance_enquiry()
+           		elif choice == 4:
+               			print("Exiting the system")
+               		break
+           		else:
+               			print("Invalid choice")
+   def validate(self):
+       atmp=0
+       while atmp<3:
+           pin = int(input("enter pin number:"))
+           if pin==1234:
+               obj.viewOptions()
+               break
+           else:
+               atmp+=1
+               print("invalid pin number")
+       else:
+           print("blocked")
+obj=bank()
+obj.validate()
+
+
+import streamlit as st
+class Bank:
+    def __init__(self):
+
+        if 'accbal' not in st.session_state:
+            st.session_state.accbal = 100000
+
+        if 'atms' not in st.session_state:
+            st.session_state.atms = 3
+    def deposit(self):
+
+            amount=st.number_input("enter the amount to deposit:",min_value=0)
+            if amount<100:
+               st.write("min amount to be deposited is 100")
+
+            elif amount % 100 !=0:
+                st.write("entered amount is not multiples of 100 ")
+
+            elif amount>50000:
+                st.write("crossed max amount to deposit")
+
+
+            else:
+                st.session_state.accbal += amount
+                st.write(f"Deposited: {amount}. New balance: {st.session_state.accbal}")
+
+    def withdraw(self):
+
+            amount1=st.number_input("enter the amount towithdraw:",min_value=0)
+            if amount1<100:
+                st.write("min amount to be withdraw is 100")
+            elif amount1 % 100 !=0:
+                st.write("entered amount is not multiples of 100 ")
+            elif amount1 > st.session_state.accbal:
+                st.write("Insufficient funds.")
+            elif st.session_state.accbal - amount1 < 500:
+                st.write("min should be 500")
+            elif amount1>20000:
+                st.write("exceeded the withdraw limit" )
+
+
+            else:
+                st.session_state.accbal -= amount1
+                st.write(f"Withdrawn: {amount1}. New balance: {st.session_state.accbal}")
+
+    def balenquiry(self):
+
+        st.write(f"Current balance: {st.session_state.accbal}")
+
+    def viewoptions(self):
+            option = st.selectbox("Choose an option", ["Deposit", "Withdraw", "Balance Enquiry", "Exit"])
+            st.write("\n 1.Deposit")
+            st.write("\n 2.withdraw")
+            st.write("\n 3.balenquiry")
+            st.write("\n 4.exit")
+            option=st.number_input("Choose your option")
+            if option==1:
+                self.deposit()
+            elif option==2:
+                self.withdraw()
+            elif option==3:
+                self.balenquiry()
+            elif option==4:
+                st.write("Exiting the system. Goodbye!")
+
+            else:
+                st.write("Invalid option. Please choose again.")
+
+    def validate(self):
+        if 'atms' not in st.session_state:
+            st.session_state.atms = 3
+        if 'pin' not in st.session_state:
+            st.session_state.pin = ""
+
+        pin = st.text_input("Enter pin number", type="password", key="pin_input")
+
+        if st.session_state.atms > 0:
+            if pin == "1234":
+                st.session_state.atms = 3
+                self.viewoptions()
+            elif pin != "":
+                if pin != "1234":
+                    st.session_state.atms -= 1
+                    st.write("Invalid pin number, try again!")
+                    if st.session_state.atms == 0:
+                        st.write("Access denied after 3 incorrect attempts.")
+        else:
+            st.write("Access denied after 3 incorrect attempts.")
+
+
+obj = Bank()
+obj.validate()
+
+
+
+
+
+
+import streamlit as st
+st.title("Even or Odd")
+num=st.number_input("Enter number")
+if st.button("even/odd"):
+    if num%2==0:
+        st.success("even number")
+    else:
+        st.write("odd number")
+
+
+
+
+
+
+
+import streamlit as st
+st.title("Student grade")
+project=st.number_input("enter the project marks")
+internal=st.number_input("enter the internal marks")
+external=st.number_input("enter the external marks")
+
+if st.button("Grade"):
+    if project >= 50 and internal >= 50 and external >= 50:
+        p = (70 / 100) * project
+        i = (10 / 100) * internal
+        e = (20 / 100) * external
+        total = p + i + e
+        st.write(total)
+
+        if total > 90:
+            st.write("A")
+
+        elif total > 80:
+            st.write("a")
+
+        elif total > 70:
+            st.write("B")
+
+        elif total > 60:
+            st.write("b")
+
+        else:
+            st.write("C")
+
+    elif internal < 50:
+        st.write("you are failed in internal ,score is ", internal)
+
+    elif external < 50:
+        st.write("you are failed in external ,score is", external)
+
+    else:
+        st.write("you are failed in project ,score is ", project)
+
+
+
+
+import streamlit as st
+st.title("percentage of amount that spent")
+a=st.number_input("enter the basic salary",min_value=10000,step=1000)
+b1=st.number_input("enter the bill1",min_value=1000,step=1000)
+b2=st.number_input("enter the bill2",min_value=1000,step=1000)
+b3=st.number_input("enter the bill3",min_value=1000,step=1000)
+
+total=b1+b2+b3
+st.write(total)
+per=(total / a) * 100
+if st.button("calculate percentage"):
+    st.write("the money spent from total salary is", per)
+
+
+
+
+import streamlit as st
+st.title("calculate Gross salary")
+BS=st.number_input("enter the basic salary",min_value=10000,step=1000)
+if st.button("calculate gs"):
+    if BS<10000:
+        HRA=(67/100)*BS
+        DA=(BS/73)*100
+    elif  BS<20000:
+        HRA = (69/100) * BS
+        DA = (76/100) * BS
+    else:
+        HRA = (73/100) * BS
+        DA = (89/100) * BS
+    GS=HRA+DA+BS
+    st.write("the gross salary is",GS)
+
+
